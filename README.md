@@ -19,6 +19,18 @@ A multi-agent AI system that performs:
 - Streamlit (planned)
 - LangGraph (planned)
 
+## Architecture
+
+User Query
+   ↓
+Research Agent
+   ↓
+Analyst Agent
+   ↓
+Writer Agent
+   ↓
+Final Report
+
 ## Setup
 
 ```bash
