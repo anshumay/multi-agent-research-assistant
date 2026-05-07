@@ -19,6 +19,17 @@ A multi-agent AI system that performs:
 - Streamlit (planned)
 - LangGraph (planned)
 
+## LangGraph Workflow
+
+The project uses LangGraph for orchestration with:
+
+- Shared agent state
+- Node-based execution
+- Sequential workflow management
+
+Flow:
+Research → Analysis → Writer
+
 ## Architecture
 
 User Query
