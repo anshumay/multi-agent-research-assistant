@@ -2,3 +2,5 @@ openai
 python-dotenv
 google-search-results
 langgraph
+streamlit
+altair==4.2.2

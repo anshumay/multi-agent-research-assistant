@@ -32,15 +32,17 @@ Research → Analysis → Writer
 
 ## Architecture
 
-User Query
-   ↓
+UI (Streamlit)
+      ↓
+LangGraph Orchestration
+      ↓
 Research Agent
-   ↓
-Analyst Agent
-   ↓
+      ↓
+Analysis Agent
+      ↓
 Writer Agent
-   ↓
-Final Report
+      ↓
+Persistent Memory
 
 ## Setup
 
