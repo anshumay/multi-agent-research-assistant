@@ -7,6 +7,7 @@ from agents.analyst import analyst_agent
 from agents.writer import writer_agent
 
 from utils.parser import parse_json
+from utils.memory import save_memory
 
 
 # -----------------------------
@@ -32,6 +33,11 @@ def research_node(state: AgentState):
 
     research_raw = research_agent(state["query"])
     research = parse_json(research_raw)
+    
+    save_memory({
+    "query": state["query"],
+    "research": research
+    })
 
     return {
     "research": research,

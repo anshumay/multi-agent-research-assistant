@@ -10,3 +10,6 @@ __pycache__/
 
 # Mac files
 .DS_Store
+
+# Memory files
+memory/research_history.json
