@@ -296,7 +296,7 @@ _Add screenshots here after deployment._
 
 # 👨‍💻 Author
 
-Built by Anshumay as part of an Agentic AI engineering mentorship track.
+Built by Anshumay Rath
 
 ---
 
