@@ -16,8 +16,8 @@ A multi-agent AI system that performs:
 - Python
 - OpenAI API
 - SerpAPI
-- Streamlit (planned)
-- LangGraph (planned)
+- Streamlit
+- LangGraph
 
 ## LangGraph Workflow
 
