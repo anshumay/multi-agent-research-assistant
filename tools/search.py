@@ -1,14 +1,15 @@
 from serpapi import GoogleSearch
 import os
 from dotenv import load_dotenv
+from utils.config import get_secret
 
 load_dotenv()
 
 def search_web(query):
     params = {
-        "q": query,
-        "api_key": os.getenv("SERPAPI_API_KEY"),
-        "num": 5
+    "q": query,
+    "api_key": get_secret("SERPAPI_API_KEY"),
+    "num": 5
     }
 
     search = GoogleSearch(params)

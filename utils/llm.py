@@ -1,11 +1,14 @@
 from openai import OpenAI
 from dotenv import load_dotenv
+from utils.config import get_secret
 import os
 import time
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(
+    api_key=get_secret("OPENAI_API_KEY")
+)
 
 
 def call_llm(prompt, temperature=0.3, retries=3):
