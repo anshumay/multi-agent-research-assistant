@@ -80,6 +80,12 @@ if run_button and query:
     else:
         st.error("Workflow failed.")
 
+    with st.expander("📝 Original Draft"):
+        st.write(result["draft_report"])
+
+    with st.expander("🪞 Reflection Feedback"):
+        st.write(result["critique"])
+    
     with st.expander("🔍 Research Output"):
         st.json(result["research"])
 
