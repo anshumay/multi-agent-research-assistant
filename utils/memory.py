@@ -21,3 +21,16 @@ def save_memory(entry):
 
     with open(MEMORY_FILE, "w") as f:
         json.dump(memory, f, indent=2)
+
+def find_in_memory(query):
+
+    memory = load_memory()
+
+    query = query.lower()
+
+    for item in reversed(memory):
+
+        if query in item["query"].lower():
+            return item
+
+    return None

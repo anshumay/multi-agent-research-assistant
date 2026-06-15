@@ -81,16 +81,20 @@ if run_button and query:
         st.error("Workflow failed.")
 
     with st.expander("📝 Original Draft"):
-        st.write(result["draft_report"])
+        if "draft_report" in result:
+            st.write(result["draft_report"])
 
     with st.expander("🪞 Reflection Feedback"):
-        st.write(result["critique"])
+        if "critique" in result:
+            st.write(result["critique"])
     
     with st.expander("🔍 Research Output"):
-        st.json(result["research"])
+        if "research" in result:
+            st.json(result["research"])
 
     with st.expander("📊 Analysis Output"):
-        st.json(result["analysis"])
+        if "analysis" in result:
+            st.json(result["analysis"])
 
 elif run_button:
     st.warning("Please enter a research topic.")

@@ -6,9 +6,11 @@ from agents.researcher import research_agent
 from agents.analyst import analyst_agent
 from agents.writer import writer_agent
 from agents.reviewer import reviewer_agent
+from agents.supervisor import supervisor_agent
+from agents.memory_summarizer import memory_summarizer
 
 from utils.parser import parse_json
-from utils.memory import save_memory
+from utils.memory import load_memory, save_memory, find_in_memory
 
 
 # -----------------------------
@@ -24,6 +26,7 @@ class AgentState(TypedDict):
     report: str
     critique: str
     retry_count: int
+    workflow_type: str
 
 
 # -----------------------------
@@ -136,6 +139,63 @@ def revision_node(state):
         "report": revised_report
     }
 
+def supervisor_node(state):
+
+    print("\n🧠 SUPERVISOR NODE")
+
+    workflow_type = supervisor_agent(
+        state["query"]
+    )
+
+    return {
+        "workflow_type": workflow_type
+    }
+
+def memory_node(state):
+
+    print("\n🧠 MEMORY NODE")
+
+    memory = load_memory()
+
+    summary = ""
+
+    for item in memory[-5:]:
+
+        summary += (
+            f"\nTopic: {item['query']}\n"
+        )
+
+    return {
+        "report": summary
+    }
+
+def supervisor_router(state):
+
+    workflow = state["workflow_type"]
+
+    if workflow == "MEMORY_LOOKUP":
+        return "memory_lookup"
+
+    if workflow == "MEMORY_SUMMARIZE":
+        return "memory"
+
+    return "research"
+
+def memory_lookup_node(state):
+
+    memory_item = find_in_memory(state["query"])
+
+    if memory_item:
+
+        summary = memory_summarizer(memory_item)
+
+        return {
+            "report": summary
+        }
+
+    return {
+        "report": "No matching memory found."
+    }
 # -----------------------------
 # GRAPH
 # -----------------------------
@@ -148,15 +208,29 @@ builder.add_node("analysis", analysis_node)
 builder.add_node("writer", writer_node)
 builder.add_node("reflection", reflection_node)
 builder.add_node("revision", revision_node)
+builder.add_node("supervisor", supervisor_node)
+builder.add_node("memory", memory_node)
+builder.add_node("memory_lookup", memory_lookup_node)
 
-builder.set_entry_point("research")
+# Start the workflow from the supervisor node
+builder.set_entry_point("supervisor")
 
-# builder.add_edge("research", "analysis")
-builder.add_edge("research", "validate_research")
-builder.add_conditional_edges(
-    "validate_research",
-    research_router
+# Supervisor router
+builder.add_conditional_edges("supervisor", supervisor_router, {"memory_lookup": "memory_lookup", "memory": "memory", "research": "research"})
+
+# Memory nodes
+builder.add_edge(
+    "memory",
+    END
 )
+builder.add_edge(
+    "memory_lookup",
+    END
+)
+
+# Research nodes
+builder.add_edge("research", "validate_research")
+builder.add_conditional_edges("validate_research", research_router, {"analysis": "analysis", "research": "research"})
 builder.add_edge("analysis", "writer")
 builder.add_edge( "writer", "reflection")
 builder.add_edge("reflection", "revision")
